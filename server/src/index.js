@@ -1223,15 +1223,14 @@ app.use((err, req, res, next) => {
 });
 
 const port = Number(process.env.PORT) || 5000;
-const mongoUri = String(
-  process.env.MONGODB_URI ||
-    process.env.MONGO_URL ||
-    (process.env.NODE_ENV === "production"
-      ? ""
-      : "mongodb://127.0.0.1:27017/PCA"),
-)
-  .trim()
-  .replace(/^['"]|['"]$/g, "");
+const configuredMongoUris = [process.env.MONGODB_URI, process.env.MONGO_URL]
+  .map((value) => String(value || "").trim().replace(/^['"]|['"]$/g, ""))
+  .filter(Boolean);
+const mongoUri =
+  configuredMongoUris.find((value) => /^mongodb(?:\+srv)?:\/\//i.test(value)) ||
+  (process.env.NODE_ENV === "production"
+    ? ""
+    : "mongodb://127.0.0.1:27017/PCA");
 let reconnectTimer;
 const safeDatabaseError = (error) => {
   const message = String(error?.message || "");
@@ -1249,7 +1248,9 @@ const connectDatabase = async () => {
     return;
   if (!mongoUri) {
     databaseReady = false;
-    databaseStatus = "missing-MONGODB_URI-or-MONGO_URL";
+    databaseStatus = configuredMongoUris.length
+      ? "invalid-mongodb-connection-string"
+      : "missing-MONGODB_URI-or-MONGO_URL";
     return;
   }
   try {
