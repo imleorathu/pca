@@ -1,1 +1,17 @@
-{"name":"pca-cinemas","private":true,"scripts":{"dev":"concurrently -n WEB,API -c red,gray \"npm run dev --prefix client\" \"npm run dev --prefix server\"","build":"npm run build --prefix client","start":"npm run start --prefix server","install:all":"npm install && npm install --prefix client && npm install --prefix server"},"devDependencies":{"concurrently":"^9.1.2"}}
+{
+  "name": "pca-cinemas",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n WEB,API -c red,gray \"npm run dev --workspace=pca-web\" \"npm run dev --workspace=pca-api\"",
+    "build": "npm run build --workspace=pca-web",
+    "start": "npm run start --workspace=pca-api",
+    "install:all": "npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

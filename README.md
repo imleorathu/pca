@@ -5,7 +5,7 @@ A full-stack cinema booking experience built with Vite + React, Express, and Mon
 ## Run locally
 
 1. Copy `server/.env.example` to `server/.env` (optional; the API uses an in-memory demo store when MongoDB is unavailable).
-2. Run `npm run install:all`
+2. Run `npm install` (npm workspaces install the client and server dependencies together)
 3. Run `npm run dev`
 4. Open `http://localhost:5173`
 
