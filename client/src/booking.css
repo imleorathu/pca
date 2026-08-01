@@ -1,0 +1,743 @@
+.booking-page {
+  min-height: 100vh;
+  background: #09090a;
+  color: #f5f2ed;
+}
+.booking-page > header {
+  height: 82px;
+  border-bottom: 1px solid #29292c;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4vw;
+  background: #060607;
+}
+.booking-page > header > button {
+  background: none;
+  border: 0;
+  color: #999;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+.booking-page > header svg {
+  width: 16px;
+}
+.booking-page > header > span {
+  font-size: 8px;
+  color: #777;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.booking-logo {
+  width: 155px;
+  height: 70px;
+  overflow: hidden;
+}
+.booking-logo img {
+  width: 145px;
+  margin-top: 0;
+}
+.booking-steps {
+  height: 82px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0e0e10;
+  border-bottom: 1px solid #242427;
+}
+.booking-steps > div {
+  display: flex;
+  align-items: center;
+  color: #56565c;
+}
+.booking-steps > div > span {
+  width: 27px;
+  height: 27px;
+  border: 1px solid #414146;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+}
+.booking-steps svg {
+  width: 12px;
+}
+.booking-steps b {
+  font-size: 8px;
+  text-transform: uppercase;
+  margin-left: 8px;
+}
+.booking-steps i {
+  width: 65px;
+  height: 1px;
+  background: #333;
+  margin: 0 15px;
+}
+.booking-steps .active {
+  color: #fff;
+}
+.booking-steps .active > span {
+  background: #ed121b;
+  border-color: #ed121b;
+}
+.booking-steps .active i {
+  background: #ed121b;
+}
+.booking-page > main {
+  width: min(980px, calc(100% - 30px));
+  margin: 45px auto 0;
+  padding-bottom: 120px;
+}
+.booking-page section {
+  animation: bookingIn 0.35s ease;
+}
+.booking-heading {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.booking-heading > svg {
+  width: 33px;
+  height: 33px;
+  color: #ed121b;
+}
+.booking-heading span {
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: #ed121b;
+}
+.booking-heading h1 {
+  font: 700 46px/0.9 "Barlow Condensed";
+  margin: 5px 0;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+.booking-field {
+  margin: 24px 0;
+}
+.booking-field > label,
+.customer-form label {
+  display: block;
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #777;
+  margin-bottom: 8px;
+}
+.booking-field > select,
+.customer-form input {
+  width: 100%;
+  height: 48px;
+  background: #101012;
+  border: 1px solid #303034;
+  color: #eee;
+  padding: 0 14px;
+}
+.date-picker {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+.date-picker button {
+  height: 78px;
+  background: #101012;
+  border: 1px solid #29292d;
+  color: #777;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.date-picker button b {
+  font: 600 24px "Barlow Condensed";
+  color: #eee;
+}
+.date-picker button small,
+.date-picker button span {
+  font-size: 7px;
+  text-transform: uppercase;
+}
+.date-picker button.active {
+  border-color: #ed121b;
+  background: #28090b;
+}
+.cinema-choice {
+  width: 100%;
+  height: 65px;
+  background: #101012;
+  border: 1px solid #ed121b;
+  color: #eee;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  text-align: left;
+}
+.cinema-choice > svg:first-child {
+  color: #ed121b;
+}
+.cinema-choice > svg:last-child {
+  margin-left: auto;
+}
+.cinema-choice span {
+  display: flex;
+  flex-direction: column;
+  margin-left: 12px;
+}
+.cinema-choice small {
+  color: #777;
+  margin-top: 4px;
+}
+.showtime-choices {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.showtime-choices button {
+  height: 44px;
+  padding: 0 17px;
+  background: #101012;
+  border: 1px solid #323237;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.showtime-choices svg {
+  width: 14px;
+}
+.showtime-choices button.active {
+  background: #ed121b;
+  border-color: #ed121b;
+  color: #fff;
+}
+.seat-map-shell {
+  overflow-x: auto;
+  padding: 2px 3px 24px;
+}
+.seat-category-title {
+  min-width: 900px;
+  padding: 0 0 12px 33px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #28282c;
+  color: #aaa;
+  font: 600 11px "Barlow Condensed";
+  letter-spacing: 1px;
+}
+.seat-category-title span {
+  color: #ed121b;
+  margin-left: 6px;
+}
+.booking-seats {
+  min-width: 900px;
+  display: grid;
+  gap: 7px;
+}
+.seat-row {
+  display: grid;
+  grid-template-columns: 24px 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+.seat-row > b {
+  color: #777;
+  font: 500 13px "Barlow Condensed";
+}
+.seat-bank {
+  display: flex;
+  gap: 6px;
+}
+.seat-bank.left {
+  justify-content: flex-end;
+}
+.seat-bank.right {
+  justify-content: flex-start;
+}
+.seat-row.compact .seat-bank.left {
+  padding-left: 50%;
+}
+.seat-row.compact .seat-bank.right {
+  padding-right: 50%;
+}
+.booking-seats button {
+  width: 31px;
+  height: 30px;
+  flex: 0 0 31px;
+  border: 1px solid #4a4a50;
+  border-radius: 8px 8px 3px 3px;
+  background: #111114;
+  color: #aaa;
+  font-size: 9px;
+  display: grid;
+  place-items: center;
+  padding: 3px;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+.booking-seats button:hover:not(:disabled) {
+  border-color: #ed121b;
+  transform: translateY(-2px);
+}
+.booking-seats button.selected {
+  background: #ed121b;
+  border-color: #ed121b;
+  color: #fff;
+}
+.booking-seats button.selected-with-icon {
+  padding: 0;
+  overflow: hidden;
+  background: transparent;
+  border-color: transparent;
+  box-shadow:
+    0 0 0 2px #ed121b,
+    0 0 16px #ed121b66;
+}
+.booking-seats button.selected-with-icon img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: 7px 7px 2px 2px;
+}
+.booking-seats button:disabled {
+  background: #303034;
+  color: #555;
+  border-color: #303034;
+}
+.booking-screen {
+  min-width: 900px;
+  width: 900px;
+  margin: 65px auto 5px;
+  text-align: center;
+  color: #888;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+}
+.booking-screen i {
+  display: block;
+  width: 340px;
+  height: 13px;
+  margin: 0 auto 14px;
+  border: 2px solid #ed121b;
+  border-top-width: 5px;
+  clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%);
+  background: linear-gradient(#ed121b33, #ed121b08);
+}
+.booking-key {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin: 25px;
+  color: #777;
+  font-size: 8px;
+}
+.booking-key span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.booking-key i {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #555;
+}
+.booking-key i.selected {
+  background: #ed121b;
+  border-color: #ed121b;
+}
+.booking-key i.occupied {
+  background: #303034;
+}
+.customer-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.customer-form label:first-child {
+  grid-column: 1/-1;
+}
+.customer-form label {
+  margin: 0;
+}
+.offer-box {
+  display: grid;
+  grid-template-columns: auto 1fr 180px auto;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid #343438;
+  background: #101012;
+  padding: 18px;
+  margin-top: 30px;
+}
+.offer-box > svg {
+  color: #ed121b;
+}
+.offer-box > div {
+  display: flex;
+  flex-direction: column;
+}
+.offer-box span {
+  font-size: 8px;
+  color: #777;
+  margin-top: 4px;
+}
+.offer-box input {
+  height: 40px;
+  background: #080809;
+  border: 1px solid #333;
+  color: #fff;
+  padding: 0 10px;
+}
+.offer-box button {
+  height: 40px;
+  background: #ed121b;
+  border: 0;
+  color: #fff;
+  padding: 0 18px;
+  font-size: 8px;
+  text-transform: uppercase;
+}
+.offer-success {
+  color: #65b979;
+  font-size: 10px;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.offer-success svg {
+  width: 16px;
+}
+.payment-methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 25px;
+}
+.payment-methods button {
+  height: 50px;
+  background: #101012;
+  border: 1px solid #303034;
+  color: #888;
+  text-transform: uppercase;
+  font-size: 9px;
+}
+.payment-methods button.active {
+  border-color: #ed121b;
+  background: #28090b;
+  color: #fff;
+}
+.payment-form .wide {
+  grid-column: 1/-1 !important;
+}
+.secure-note {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #777;
+  margin-top: 25px;
+}
+.secure-note svg {
+  color: #65b979;
+}
+.secure-note span {
+  display: flex;
+  flex-direction: column;
+  font-size: 8px;
+}
+.secure-note b {
+  color: #ddd;
+  margin-bottom: 3px;
+}
+.booking-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  min-height: 82px;
+  background: #0d0d0ff5;
+  border-top: 1px solid #2d2d31;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 12px max(4vw, 20px);
+  z-index: 20;
+}
+.booking-nav > button {
+  background: none;
+  border: 0;
+  color: #aaa;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.booking-nav > div {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+.booking-nav small {
+  color: #777;
+  font-size: 8px;
+}
+.booking-nav b {
+  font: 600 22px "Barlow Condensed";
+  margin-top: 3px;
+}
+.booking-primary {
+  height: 48px;
+  background: #ed121b !important;
+  border: 0 !important;
+  color: #fff !important;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-transform: uppercase;
+  font-size: 9px;
+  font-weight: 700;
+}
+.booking-nav .booking-primary {
+  justify-self: end;
+}
+.booking-error {
+  background: #321012;
+  border: 1px solid #6b1c21;
+  color: #ff8b91;
+  padding: 12px;
+  margin: 20px 0;
+  font-size: 9px;
+}
+.ticket-success {
+  text-align: center;
+}
+.success-check {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #ed121b;
+  display: grid;
+  place-items: center;
+  margin: auto;
+}
+.success-check svg {
+  width: 28px;
+}
+.ticket-success > span {
+  display: block;
+  color: #ed121b;
+  font-size: 8px;
+  letter-spacing: 2px;
+  margin-top: 20px;
+}
+.ticket-success > h1 {
+  font: 700 58px "Barlow Condensed";
+  text-transform: uppercase;
+  margin: 10px;
+}
+.digital-ticket {
+  max-width: 680px;
+  margin: 30px auto;
+  display: grid;
+  grid-template-columns: 1fr 170px;
+  text-align: left;
+  background: #f0ece4;
+  color: #111;
+  padding: 28px;
+  border-left: 7px solid #ed121b;
+}
+.digital-ticket > div > small {
+  font-size: 7px;
+}
+.digital-ticket > div > strong {
+  display: block;
+  color: #ed121b;
+  font: 600 18px "Barlow Condensed";
+  margin: 5px 0 20px;
+}
+.digital-ticket h2 {
+  font: 700 31px "Barlow Condensed";
+  text-transform: uppercase;
+  margin: 0 0 14px;
+}
+.digital-ticket p {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 9px;
+}
+.digital-ticket p svg {
+  width: 13px;
+}
+.digital-ticket > div > div {
+  display: flex;
+  gap: 40px;
+  margin-top: 20px;
+}
+.digital-ticket > div > div span {
+  display: flex;
+  flex-direction: column;
+}
+.digital-ticket img {
+  width: 150px;
+  height: 150px;
+  align-self: center;
+}
+.ticket-success > .booking-primary {
+  margin: auto;
+}
+@keyframes bookingIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 700px) {
+  .booking-page > header {
+    height: 70px;
+    padding: 0 14px;
+  }
+  .booking-page > header > button span {
+    display: none;
+  }
+  .booking-logo {
+    width: 120px;
+    height: 60px;
+  }
+  .booking-logo img {
+    width: 120px;
+  }
+  .booking-page > main {
+    width: calc(100% - 28px);
+    margin-top: 30px;
+    padding-bottom: 155px;
+  }
+  .booking-page > header > span {
+    display: none;
+  }
+  .booking-steps b {
+    display: none;
+  }
+  .booking-steps i {
+    width: 24px;
+    margin: 0 7px;
+  }
+  .date-picker {
+    overflow: auto;
+    display: flex;
+  }
+  .date-picker button {
+    min-width: 62px;
+  }
+  .customer-form {
+    grid-template-columns: 1fr;
+  }
+  .customer-form label:first-child {
+    grid-column: auto;
+  }
+  .offer-box {
+    grid-template-columns: auto 1fr;
+  }
+  .offer-box input {
+    grid-column: 1/2;
+  }
+  .offer-box button {
+    grid-column: 2/3;
+  }
+  .booking-seats {
+    gap: 6px;
+  }
+  .booking-seats button {
+    height: 30px;
+  }
+  .digital-ticket {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  .digital-ticket img {
+    margin-top: 20px;
+  }
+  .booking-heading h1 {
+    font-size: 38px;
+  }
+  .booking-nav {
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    padding: 10px 14px max(10px, env(safe-area-inset-bottom));
+  }
+  .booking-nav > div {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+    gap: 7px;
+  }
+  .booking-nav > button:first-child {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .booking-nav .booking-primary {
+    grid-column: 2;
+    grid-row: 2;
+    width: 100%;
+  }
+  .booking-nav .booking-primary {
+    padding: 0 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .booking-steps {
+    height: 68px;
+  }
+  .booking-steps i {
+    width: 14px;
+    margin-inline: 4px;
+  }
+  .booking-heading {
+    align-items: flex-start;
+  }
+  .booking-heading > svg {
+    width: 25px;
+    height: 25px;
+    flex: 0 0 auto;
+  }
+  .booking-heading h1 {
+    font-size: 34px;
+  }
+  .cinema-choice {
+    height: auto;
+    min-height: 65px;
+    padding-block: 12px;
+  }
+  .showtime-choices button {
+    flex: 1 1 calc(50% - 8px);
+    justify-content: center;
+  }
+  .offer-box {
+    grid-template-columns: 1fr;
+  }
+  .offer-box input,
+  .offer-box button {
+    grid-column: auto;
+  }
+  .digital-ticket {
+    border-left-width: 4px;
+  }
+  .digital-ticket > div > div {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+}

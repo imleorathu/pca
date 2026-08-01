@@ -1,0 +1,1724 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap");
+:root {
+  --red: #ed121b;
+  --ink: #080808;
+  --soft: #b5b2ae;
+  --paper: #e9e5de;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+  background: var(--ink);
+  color: #f7f4ef;
+  font-family: Inter, Arial, sans-serif;
+}
+button,
+a {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+header {
+  height: 86px;
+  padding: 0 3.2vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #050505;
+  border-bottom: 1px solid #3a0b0d;
+  position: relative;
+  z-index: 20;
+}
+.brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.8;
+}
+.brand b {
+  font: 900 37px/1 "Barlow Condensed";
+  letter-spacing: -1px;
+  color: var(--red);
+}
+.brand span {
+  font: 600 9px/1 Inter;
+  letter-spacing: 6px;
+  margin-left: 2px;
+  margin-top: 6px;
+}
+nav {
+  display: flex;
+  gap: 42px;
+}
+nav a {
+  font: 600 13px Inter;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+}
+nav a:hover {
+  color: #fff;
+}
+nav a.active:after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--red);
+}
+.head-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.icon,
+.signin {
+  color: #eee;
+  background: none;
+  border: 0;
+}
+.icon svg {
+  width: 20px;
+}
+.signin {
+  border-left: 1px solid #333;
+  padding-left: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: uppercase;
+  font: 600 12px Inter;
+}
+.signin svg {
+  width: 17px;
+}
+.menu {
+  display: none;
+}
+.hero {
+  height: 670px;
+  min-height: 620px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--red);
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      90deg,
+      #050505 0%,
+      rgba(5, 5, 5, 0.3) 53%,
+      rgba(5, 5, 5, 0.05)
+    ),
+    url("/assets/pca-noir-hero.png");
+  background-position: center;
+  background-size: cover;
+}
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  padding: 88px 0 0 6vw;
+  max-width: 660px;
+}
+.eyebrow,
+.section-head span,
+.experience-copy > span,
+.modal-head > span,
+.simple-modal > span,
+.success > span {
+  font: 600 11px Inter;
+  letter-spacing: 3px;
+  color: var(--red);
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.eyebrow span {
+  height: 1px;
+  width: 35px;
+  background: var(--red);
+}
+h1 {
+  font: 900 clamp(76px, 8vw, 132px) / 0.73 "Barlow Condensed";
+  text-transform: uppercase;
+  letter-spacing: -4px;
+  margin: 34px 0 30px;
+  color: #e8e3db;
+}
+h1 em {
+  font-style: normal;
+  color: transparent;
+  -webkit-text-stroke: 1px #e8e3db;
+}
+.meta {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 23px;
+  font: 600 16px "Barlow Condensed";
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.meta span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.meta svg {
+  width: 18px;
+  color: var(--red);
+}
+.meta i {
+  width: 1px;
+  height: 20px;
+  background: var(--red);
+}
+.hero-copy p {
+  color: #aaa;
+  font-size: 14px;
+  margin: 20px 0 26px;
+}
+.hero-actions {
+  display: flex;
+  gap: 14px;
+}
+.primary,
+.secondary {
+  height: 56px;
+  border: 1px solid #555;
+  padding: 0 28px;
+  text-transform: uppercase;
+  font: 700 12px Inter;
+  letter-spacing: 1.5px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  color: white;
+  background: transparent;
+}
+.primary {
+  background: var(--red);
+  border-color: var(--red);
+}
+.primary:hover {
+  background: #ff2730;
+}
+.secondary:hover {
+  border-color: white;
+}
+.primary svg,
+.secondary svg {
+  width: 17px;
+}
+.scroll-cue {
+  position: absolute;
+  right: 2vw;
+  bottom: 25px;
+  transform: rotate(90deg);
+  transform-origin: right bottom;
+  font: 600 9px Inter;
+  letter-spacing: 2px;
+  color: #888;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.scroll-cue span {
+  height: 1px;
+  width: 40px;
+  background: var(--red);
+}
+.timebar {
+  height: 140px;
+  display: grid;
+  grid-template-columns: 1.1fr repeat(4, 1.15fr) 1.25fr;
+  background: #111;
+  border-bottom: 1px solid #292929;
+}
+.time-title {
+  background: var(--red);
+  padding: 31px 3vw;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.time-title span,
+.time-title b {
+  font: 700 25px/0.8 "Barlow Condensed";
+}
+.time-title svg {
+  position: absolute;
+  right: 22px;
+  bottom: 24px;
+  width: 20px;
+}
+.timebar > button {
+  border: 0;
+  border-right: 1px solid #3a191a;
+  background: #111;
+  color: #eee;
+  text-align: left;
+  padding: 20px 2.5vw;
+}
+.timebar > button:hover {
+  background: #181313;
+}
+.timebar small {
+  display: block;
+  color: var(--red);
+  font: 700 11px Inter;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+.timebar strong {
+  font: 600 45px/1 "Barlow Condensed";
+}
+.timebar button span {
+  color: #888;
+  font: 500 18px "Barlow Condensed";
+  margin-left: 8px;
+}
+.timebar > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #aaa;
+}
+.timebar > a svg {
+  width: 17px;
+  color: var(--red);
+}
+.section {
+  padding: 100px 5vw;
+}
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 42px;
+}
+.section-head h2,
+.experience h2,
+footer h2,
+.modal h2 {
+  font: 700 clamp(45px, 5vw, 76px) / 0.9 "Barlow Condensed";
+  text-transform: uppercase;
+  margin: 14px 0 0;
+  letter-spacing: -1px;
+}
+.round {
+  border: 1px solid #3b3b3b;
+  border-radius: 50%;
+  background: none;
+  color: white;
+  width: 48px;
+  height: 48px;
+  margin-left: 8px;
+}
+.round:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.movie-card {
+  min-width: 0;
+  background: #101010;
+  border-bottom: 1px solid #333;
+}
+.poster-art {
+  height: 350px;
+  position: relative;
+  overflow: hidden;
+  padding: 25px;
+  background: radial-gradient(
+    circle at 50% 40%,
+    var(--card, #7d0c12),
+    #150305 55%,
+    #050505
+  );
+  display: flex;
+  align-items: end;
+}
+.poster-art:before,
+.poster-art:after {
+  display: none;
+}
+.movie-card {
+  transition:
+    transform 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+.movie-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--red);
+  box-shadow: 0 18px 45px #000;
+}
+.movie-card .poster-art {
+  transition:
+    transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.4s ease;
+}
+.movie-card:hover .poster-art {
+  transform: scale(1.035);
+  filter: brightness(1.1);
+}
+.movie-card .card-info {
+  position: relative;
+  z-index: 2;
+  background: #101010;
+}
+.movie-card:hover .card-info button {
+  color: var(--red);
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.poster-art:before {
+  content: "";
+  position: absolute;
+  width: 190px;
+  height: 240px;
+  border: 1px solid #b8171d;
+  border-radius: 50% 50% 10% 10%;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-6deg);
+  box-shadow: 0 0 70px #d10d1644;
+}
+.poster-art:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    100deg,
+    transparent 0 34px,
+    #ffffff08 35px 36px
+  );
+  mix-blend-mode: screen;
+}
+.poster-1 .poster-art {
+  --card: #352131;
+}
+.poster-2 .poster-art {
+  --card: #ab1318;
+}
+.poster-3 .poster-art {
+  --card: #273138;
+}
+.poster-no {
+  position: absolute;
+  right: 17px;
+  top: 15px;
+  font: 500 13px "Barlow Condensed";
+  color: #777;
+}
+.poster-mark {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  font: 700 9px/1 Inter;
+  letter-spacing: 2px;
+  color: #888;
+}
+.poster-art h3 {
+  position: relative;
+  z-index: 2;
+  text-transform: uppercase;
+  font: 800 40px/0.85 "Barlow Condensed";
+  margin: 0;
+  width: 80%;
+  text-shadow: 0 4px 15px #000;
+}
+.card-info {
+  padding: 21px;
+}
+.card-info small {
+  color: var(--red);
+  text-transform: uppercase;
+  font: 600 9px Inter;
+  letter-spacing: 1.5px;
+}
+.card-info h3 {
+  text-transform: uppercase;
+  font: 700 24px "Barlow Condensed";
+  margin: 7px 0 13px;
+}
+.card-info > div {
+  display: flex;
+  gap: 16px;
+  color: #999;
+  font: 500 10px Inter;
+  text-transform: uppercase;
+}
+.card-info svg {
+  height: 11px;
+  width: 11px;
+  color: var(--red);
+}
+.card-info button,
+.offers article button {
+  border: 0;
+  border-top: 1px solid #333;
+  background: none;
+  color: white;
+  width: 100%;
+  margin-top: 20px;
+  padding: 18px 0 0;
+  display: flex;
+  justify-content: space-between;
+  text-transform: uppercase;
+  font: 600 10px Inter;
+  letter-spacing: 1px;
+}
+.movie-card .card-info > button {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    color 0.25s ease;
+}
+.movies-page {
+  min-height: 100vh;
+  background: #080808;
+  padding-top: 82px;
+}
+.movies-page-hero {
+  min-height: 340px;
+  padding: 90px 6vw 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background:
+    linear-gradient(90deg, #050505 15%, #050505aa, #050505),
+    radial-gradient(circle at 72% 45%, #72080e 0, #210305 28%, #050505 62%);
+  border-bottom: 1px solid #3c090c;
+}
+.movies-page-hero span {
+  color: var(--red);
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+.movies-page-hero h1 {
+  margin: 8px 0;
+  font-size: clamp(75px, 11vw, 145px);
+  line-height: 0.85;
+}
+.movies-page-hero p {
+  color: #888;
+  font-size: 12px;
+}
+.movie-library-section {
+  padding: 75px 6vw;
+  border-bottom: 1px solid #222;
+}
+.movie-library-section:nth-child(3) {
+  background: #0d0d0e;
+}
+.movie-library-section .section-head > b {
+  color: #666;
+  font: 600 9px Inter;
+  letter-spacing: 2px;
+}
+.movie-library-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.experiences-page {
+  background: #09090a;
+  min-height: 100vh;
+}
+.experiences-page-hero {
+  min-height: 520px;
+  padding: 80px 6vw;
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(90deg, #050505 4%, #050505dd 34%, #05050555 70%, #050505),
+    url("/assets/experience-cinemax-hero.jpg") center 48% / cover;
+  border-bottom: 1px solid #4a0a0e;
+}
+.experiences-page-hero span,
+.experience-library-head span {
+  color: var(--red);
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+.experiences-page-hero h1 {
+  margin: 14px 0 20px;
+  font-size: clamp(76px, 10vw, 145px);
+  line-height: 0.78;
+  text-transform: uppercase;
+}
+.experiences-page-hero p {
+  max-width: 480px;
+  color: #aaa;
+  line-height: 1.7;
+  font-size: 12px;
+}
+.experience-library {
+  padding: 85px 5vw 110px;
+}
+.experience-library-head {
+  max-width: 680px;
+  margin-bottom: 42px;
+}
+.experience-library-head h2 {
+  font-size: clamp(42px, 5vw, 72px);
+  line-height: 0.95;
+  margin: 12px 0;
+}
+.experience-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.experience-card {
+  min-height: 460px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #29292b;
+  background: #111;
+}
+.experience-card img,
+.experience-card-shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.experience-card img {
+  object-fit: cover;
+  transition:
+    transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.5s ease;
+}
+.experience-card-shade {
+  background: linear-gradient(0deg, #050505f2 2%, #05050566 57%, #05050520);
+}
+.experience-card > span {
+  position: absolute;
+  z-index: 2;
+  top: 25px;
+  left: 27px;
+  color: #ddd;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.experience-card > div:last-child {
+  position: absolute;
+  z-index: 2;
+  left: 28px;
+  right: 28px;
+  bottom: 27px;
+}
+.experience-card h3 {
+  font: 800 43px/0.9 "Barlow Condensed";
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+.experience-card p {
+  max-width: 510px;
+  color: #aaa;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.experience-card button {
+  border: 0;
+  background: transparent;
+  color: var(--red);
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: uppercase;
+  font-size: 9px;
+  font-weight: 700;
+}
+.experience-card button svg {
+  width: 14px;
+}
+.experience-card:hover img {
+  transform: scale(1.055);
+  filter: brightness(1.1);
+}
+.experience-card:hover {
+  border-color: #8f1117;
+}
+.experience-card:last-child {
+  grid-column: 1 / 2;
+}
+.experience-detail-page {
+  min-height: 100vh;
+  background: #080808;
+}
+.experience-detail-hero {
+  min-height: 680px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 80px 6vw;
+  background:
+    linear-gradient(0deg, #050505f5 2%, #05050533 65%),
+    linear-gradient(90deg, #050505aa, transparent 65%),
+    var(--experience-image) center / cover;
+}
+.experience-detail-hero.has-video {
+  background: #050505;
+  overflow: hidden;
+}
+.experience-detail-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.experience-detail-video-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(0deg, #050505f5 2%, #05050533 65%),
+    linear-gradient(90deg, #050505aa, transparent 65%);
+  pointer-events: none;
+}
+.experience-detail-hero > div:last-child {
+  position: relative;
+  z-index: 2;
+}
+.experience-detail-hero > button {
+  position: absolute;
+  z-index: 3;
+  top: 35px;
+  left: 6vw;
+  border: 0;
+  background: #080808b8;
+  color: #ddd;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-transform: uppercase;
+  font-size: 9px;
+}
+.experience-detail-hero > .experience-sound-toggle {
+  top: 35px;
+  right: 6vw;
+  left: auto;
+  border: 1px solid #ffffff44;
+  backdrop-filter: blur(8px);
+}
+.experience-detail-hero > .experience-sound-toggle:hover {
+  border-color: var(--red);
+  background: #ed121bcc;
+}
+.experience-detail-hero > button svg {
+  width: 15px;
+  color: var(--red);
+}
+.experience-detail-hero > div {
+  max-width: 850px;
+}
+.experience-detail-hero span,
+.experience-detail-content > div:first-child > span {
+  color: var(--red);
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+.experience-detail-hero h1 {
+  font-size: clamp(76px, 10vw, 145px);
+  line-height: 0.8;
+  text-transform: uppercase;
+  margin: 14px 0 20px;
+}
+.experience-detail-hero p {
+  max-width: 620px;
+  color: #ccc;
+  line-height: 1.7;
+  font-size: 12px;
+}
+.experience-detail-content {
+  padding: 95px 6vw 120px;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 8vw;
+}
+.experience-detail-content h2 {
+  font-size: clamp(46px, 6vw, 78px);
+  line-height: 0.9;
+  margin: 15px 0;
+}
+.experience-detail-copy > p {
+  color: #aaa;
+  font-size: 13px;
+  line-height: 1.9;
+  margin: 0 0 35px;
+}
+.experience-feature-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid #333;
+}
+.experience-feature-list article {
+  padding: 21px 8px;
+  border-bottom: 1px solid #333;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.experience-feature-list article:nth-child(odd) {
+  border-right: 1px solid #333;
+}
+.experience-feature-list b {
+  color: var(--red);
+  font: 600 11px "Barlow Condensed";
+}
+.experience-feature-list span {
+  text-transform: uppercase;
+  font-size: 10px;
+}
+.experience-detail-copy > .primary {
+  margin-top: 35px;
+}
+@media (max-width: 800px) {
+  .experience-card-grid {
+    grid-template-columns: 1fr;
+  }
+  .experience-card:last-child {
+    grid-column: auto;
+  }
+  .experience-card {
+    min-height: 390px;
+  }
+  .experiences-page-hero {
+    min-height: 440px;
+    padding: 60px 24px;
+  }
+  .experience-library {
+    padding: 65px 20px 85px;
+  }
+  .experience-detail-hero {
+    min-height: 570px;
+    padding: 65px 24px;
+  }
+  .experience-detail-content {
+    grid-template-columns: 1fr;
+    padding: 70px 24px 90px;
+  }
+  .experience-feature-list {
+    grid-template-columns: 1fr;
+  }
+  .experience-feature-list article:nth-child(odd) {
+    border-right: 0;
+  }
+}
+.card-info button svg,
+.offers article button svg {
+  height: 14px;
+  color: var(--red);
+}
+.experience {
+  display: grid;
+  grid-template-columns: 0.75fr 1.25fr;
+  background: var(--paper);
+  color: #101010;
+  gap: 5vw;
+}
+.experience-copy em,
+footer em {
+  font-style: normal;
+  color: var(--red);
+}
+.experience-copy p {
+  color: #5f5c58;
+  line-height: 1.8;
+  font-size: 13px;
+  max-width: 470px;
+  margin: 30px 0;
+}
+.experience-copy .secondary {
+  color: #111;
+  border-color: #999;
+}
+.experience-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.experience-grid article {
+  background: #111;
+  color: white;
+  min-height: 200px;
+  padding: 32px;
+  position: relative;
+}
+.experience-grid article svg {
+  color: var(--red);
+  width: 32px;
+  height: 32px;
+}
+.experience-grid h3 {
+  text-transform: uppercase;
+  font: 600 25px "Barlow Condensed";
+  margin: 25px 0 5px;
+}
+.experience-grid p {
+  font-size: 11px;
+  color: #888;
+}
+.experience-grid .exp-main {
+  grid-row: span 2;
+  min-height: 420px;
+  background: linear-gradient(145deg, #101010, #410609);
+}
+.exp-main > span {
+  color: #777;
+  font: 500 12px Inter;
+}
+.screen {
+  margin-top: 70px;
+  border: 1px solid #682529;
+  height: 130px;
+  transform: perspective(300px) rotateX(-8deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 500 34px "Barlow Condensed";
+  letter-spacing: 4px;
+  box-shadow: 0 10px 45px #ed121b55 inset;
+}
+.screen b {
+  color: var(--red);
+  margin-left: 9px;
+}
+.offers {
+  background: #0d0d0d;
+}
+.offer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.offers article {
+  min-height: 300px;
+  padding: 35px;
+  background: linear-gradient(135deg, #151515, #080808);
+  border: 1px solid #262626;
+  position: relative;
+  overflow: hidden;
+}
+.offers article:after {
+  content: "PCA";
+  position: absolute;
+  right: -15px;
+  bottom: -28px;
+  font: 900 120px "Barlow Condensed";
+  color: #ffffff05;
+}
+.offers small {
+  color: #888;
+  letter-spacing: 1.5px;
+}
+.offers h3 {
+  font: 800 64px "Barlow Condensed";
+  color: var(--red);
+  margin: 65px 0 0;
+}
+.offers p {
+  color: #aaa;
+  font-size: 12px;
+}
+.offers article button {
+  position: relative;
+  z-index: 2;
+}
+.modal-wrap {
+  position: fixed;
+  inset: 0;
+  background: #000d;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  backdrop-filter: blur(8px);
+}
+.modal {
+  background: #111;
+  border: 1px solid #3e2929;
+  max-height: 94vh;
+  overflow: auto;
+  position: relative;
+}
+.booking {
+  width: min(900px, 100%);
+  padding: 36px;
+}
+.close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background: none;
+  border: 0;
+  color: #aaa;
+}
+.modal-head h2 {
+  font-size: 48px;
+}
+.date-row,
+.times {
+  display: flex;
+  gap: 8px;
+  margin: 25px 0;
+}
+.date-row button,
+.times button {
+  background: #181818;
+  border: 1px solid #333;
+  color: #aaa;
+}
+.date-row button {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 25px;
+}
+.date-row button strong {
+  font: 700 25px "Barlow Condensed";
+  color: white;
+}
+.date-row button b,
+.date-row button small {
+  font-size: 9px;
+}
+.date-row button.active,
+.times button.active {
+  border-color: var(--red);
+  color: white;
+  background: #29090a;
+}
+.times button {
+  padding: 12px 18px;
+}
+.screen-label {
+  margin: 35px auto 22px;
+  width: 70%;
+  height: 25px;
+  border-top: 3px solid var(--red);
+  border-radius: 50%;
+  text-align: center;
+  color: #777;
+  font-size: 8px;
+  padding-top: 8px;
+}
+.seats {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 9px;
+  max-width: 500px;
+  margin: auto;
+}
+.seats button {
+  border: 1px solid #555;
+  border-radius: 4px 4px 1px 1px;
+  background: none;
+  color: #888;
+  height: 28px;
+  font-size: 8px;
+}
+.seats button:disabled {
+  background: #333;
+  border-color: #333;
+  color: #555;
+}
+.seats button.chosen {
+  background: var(--red);
+  border-color: var(--red);
+  color: white;
+}
+.seat-key {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin: 20px;
+  font-size: 9px;
+  color: #888;
+}
+.seat-key span {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+.seat-key i {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #555;
+}
+.seat-key .sel {
+  background: var(--red);
+  border-color: var(--red);
+}
+.seat-key .occ {
+  background: #333;
+}
+.booking-total {
+  border-top: 1px solid #333;
+  margin-top: 20px;
+  padding-top: 22px;
+  display: grid;
+  grid-template-columns: 1fr 0.6fr 1fr;
+  align-items: center;
+  gap: 20px;
+}
+.booking-total div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.booking-total small {
+  font-size: 8px;
+  color: #888;
+  letter-spacing: 1px;
+}
+.booking-total strong {
+  font: 600 17px "Barlow Condensed";
+}
+.booking-total .primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.simple-modal {
+  width: min(560px, 100%);
+  padding: 45px;
+}
+.video {
+  height: 260px;
+  background: linear-gradient(135deg, #410507, #060606);
+  display: grid;
+  place-items: center;
+  margin-bottom: 30px;
+}
+.video svg {
+  width: 60px;
+  height: 60px;
+  color: var(--red);
+}
+.simple-modal h2 {
+  font-size: 55px;
+}
+.simple-modal > p {
+  color: #777;
+  font-size: 11px;
+}
+.simple-modal label {
+  display: block;
+  color: #888;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 18px;
+}
+.simple-modal input {
+  display: block;
+  width: 100%;
+  height: 48px;
+  background: #080808;
+  border: 1px solid #333;
+  color: white;
+  padding: 0 14px;
+  margin-top: 7px;
+}
+.simple-modal form > .primary {
+  margin-top: 22px;
+  width: 100%;
+}
+.auth-switch {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #292929;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: #888;
+  font-size: 10px;
+}
+.auth-switch button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--red);
+  font: inherit;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.auth-switch button:hover {
+  color: #fff;
+}
+.simple-modal > .primary {
+  margin-top: 22px;
+  width: 100%;
+}
+.login-icon {
+  width: 55px;
+  height: 55px;
+  background: var(--red);
+  display: grid;
+  place-items: center;
+  margin-bottom: 25px;
+}
+.success {
+  text-align: center;
+  padding: 60px;
+}
+.success > div {
+  margin: auto auto 25px;
+  background: var(--red);
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: grid;
+  place-items: center;
+  font-size: 35px;
+}
+.success p {
+  line-height: 1.8;
+  color: #aaa;
+}
+.success .primary {
+  margin-top: 15px;
+}
+footer {
+  padding: 90px 5vw 30px;
+  background: #050505;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr auto;
+  align-items: center;
+  padding-bottom: 70px;
+}
+.footer-top h2 {
+  font-size: 60px;
+}
+.footer-bottom {
+  border-top: 1px solid #222;
+  padding-top: 25px;
+  color: #666;
+  font-size: 9px;
+  display: flex;
+  justify-content: space-between;
+}
+.footer-bottom div {
+  display: flex;
+  gap: 25px;
+}
+.footer-bottom svg {
+  height: 16px;
+}
+@media (max-width: 900px) {
+  header {
+    height: 72px;
+  }
+  .brand b {
+    font-size: 30px;
+  }
+  nav {
+    display: none;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    padding: 28px;
+    background: #080808;
+    flex-direction: column;
+    gap: 0;
+    max-height: calc(100dvh - 72px);
+    overflow-y: auto;
+    border-bottom: 1px solid #3a0b0d;
+    box-shadow: 0 18px 35px #000b;
+  }
+  nav a {
+    width: 100%;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #1f1f1f;
+  }
+  nav a.active:after {
+    bottom: 0;
+    width: 42px;
+  }
+  nav.open {
+    display: flex;
+  }
+  .menu {
+    display: block;
+  }
+  .signin {
+    font-size: 0;
+  }
+  .hero {
+    height: 620px;
+  }
+  .hero-copy {
+    padding-top: 100px;
+  }
+  .timebar {
+    height: auto;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .time-title,
+  .timebar > a {
+    grid-column: span 2;
+    height: 90px;
+  }
+  .timebar > button {
+    padding: 22px;
+  }
+  .movie-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .experience {
+    grid-template-columns: 1fr;
+  }
+  .offer-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+  .footer-bottom {
+    gap: 20px;
+    flex-direction: column;
+  }
+}
+@media (hover: none) {
+  .movie-card .card-info > button {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+.hero-bg {
+  animation: heroReveal 0.65s ease both;
+}
+.hero-copy {
+  animation: heroCopyReveal 0.55s 0.08s ease both;
+}
+.hero-pagination {
+  position: absolute;
+  z-index: 5;
+  left: 6vw;
+  bottom: 28px;
+  display: flex;
+  gap: 8px;
+}
+.hero-pagination button {
+  width: 34px;
+  height: 12px;
+  border: 0;
+  background: transparent;
+  padding: 5px 0;
+}
+.hero-pagination button span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #696969;
+  transition: 0.25s;
+}
+.hero-pagination button.active span {
+  background: var(--red);
+  box-shadow: 0 0 8px #ed121b;
+}
+.hero-pagination button:hover span {
+  background: #fff;
+}
+@keyframes heroReveal {
+  from {
+    opacity: 0.35;
+    transform: scale(1.025);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes heroCopyReveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg,
+  .hero-copy {
+    animation: none;
+  }
+}
+.poster-art {
+  background-size: cover;
+  background-position: center;
+}
+.round:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+.catalogue-empty {
+  grid-column: 1/-1;
+  min-height: 260px;
+  border: 1px solid #272727;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #777;
+}
+.catalogue-empty svg {
+  width: 32px;
+  color: var(--red);
+}
+.catalogue-empty h3 {
+  font: 600 30px "Barlow Condensed";
+  text-transform: uppercase;
+  color: #ddd;
+  margin: 15px 0 4px;
+}
+.catalogue-empty p {
+  font-size: 11px;
+}
+.empty-hero {
+  height: 560px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: radial-gradient(circle at 50% 40%, #360608, #050505 58%);
+  border-bottom: 1px solid #381013;
+}
+.empty-hero span {
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--red);
+}
+.empty-hero h1 {
+  margin: 25px 0;
+  font-size: clamp(70px, 10vw, 150px);
+}
+.empty-hero p {
+  color: #888;
+  font-size: 12px;
+}
+@media (max-width: 560px) {
+  .head-actions {
+    gap: 5px;
+  }
+  h1 {
+    font-size: 70px;
+  }
+  .hero-copy {
+    padding: 80px 20px 0;
+  }
+  .hero-copy p {
+    max-width: 280px;
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 220px;
+  }
+  .hero {
+    height: 650px;
+  }
+  .hero-bg {
+    background-position: 61% center;
+  }
+  .meta {
+    gap: 10px;
+    font-size: 13px;
+  }
+  .timebar strong {
+    font-size: 35px;
+  }
+  .section {
+    padding: 70px 20px;
+  }
+  .movie-grid {
+    display: flex;
+    overflow: auto;
+  }
+  .movie-card {
+    min-width: 78vw;
+  }
+  .experience-grid {
+    grid-template-columns: 1fr;
+  }
+  .experience-grid .exp-main {
+    grid-row: auto;
+  }
+  .offer-grid {
+    grid-template-columns: 1fr;
+  }
+  .booking {
+    padding: 25px 15px;
+  }
+  .date-row button {
+    padding: 8px 14px;
+  }
+  .times {
+    overflow: auto;
+  }
+  .seats {
+    gap: 6px;
+  }
+  .booking-total {
+    grid-template-columns: 1fr 1fr;
+  }
+  .booking-total .primary {
+    grid-column: span 2;
+  }
+  .footer-top h2 {
+    font-size: 46px;
+  }
+  .footer-bottom div {
+    flex-wrap: wrap;
+  }
+}
+
+/* Mobile layout hardening */
+img,
+video,
+svg {
+  max-width: 100%;
+}
+button,
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding-inline: 14px;
+  }
+  .brand {
+    width: 128px;
+    height: 56px;
+  }
+  .brand img {
+    width: 128px;
+    transform: translateY(-39px);
+  }
+  .head-actions {
+    margin-left: auto;
+  }
+  .signin {
+    padding-left: 10px;
+  }
+  .hero {
+    height: min(650px, calc(100svh - 72px));
+    min-height: 540px;
+  }
+  .hero-copy {
+    padding: 64px 20px 90px;
+    max-width: 100%;
+  }
+  h1,
+  .movies-page-hero h1,
+  .experiences-page-hero h1,
+  .experience-detail-hero h1 {
+    font-size: clamp(52px, 19vw, 70px);
+    letter-spacing: -2px;
+    overflow-wrap: anywhere;
+  }
+  .hero-copy h1 {
+    margin-block: 25px 22px;
+  }
+  .hero-actions {
+    width: 100%;
+  }
+  .hero-actions .primary,
+  .hero-actions .secondary {
+    width: min(100%, 300px);
+  }
+  .hero-pagination {
+    left: 20px;
+  }
+  .scroll-cue {
+    display: none;
+  }
+  .time-title,
+  .timebar > a {
+    height: 76px;
+  }
+  .timebar > button {
+    min-width: 0;
+    padding: 18px 14px;
+  }
+  .timebar strong {
+    font-size: 32px;
+  }
+  .timebar button span {
+    font-size: 15px;
+    margin-left: 3px;
+  }
+  .section-head {
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .section-head h2,
+  .experience h2,
+  footer h2,
+  .modal h2 {
+    font-size: clamp(38px, 13vw, 52px);
+  }
+  .movie-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+  .movie-card {
+    min-width: 0;
+  }
+  .poster-art {
+    height: min(125vw, 480px);
+  }
+  .experience-grid article,
+  .offers article {
+    padding: 24px;
+  }
+  .experience-grid .exp-main {
+    min-height: 350px;
+  }
+  .experience-card {
+    min-height: 340px;
+  }
+  .experience-card > div:last-child {
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+  }
+  .experience-card h3 {
+    font-size: 35px;
+  }
+  .experience-detail-hero {
+    min-height: 520px;
+    padding: 80px 20px 48px;
+  }
+  .experience-detail-hero > .experience-sound-toggle {
+    right: 20px;
+  }
+  .experience-detail-content {
+    padding: 55px 20px 75px;
+    gap: 40px;
+  }
+  .footer-top {
+    padding-bottom: 45px;
+  }
+  footer {
+    padding: 65px 20px 24px;
+  }
+  .modal-wrap {
+    padding: 10px;
+    align-items: end;
+  }
+  .modal {
+    width: 100%;
+    max-height: calc(100dvh - 20px);
+  }
+  .simple-modal,
+  .success {
+    padding: 42px 20px 25px;
+  }
+}
+
+@media (max-width: 380px) {
+  .brand {
+    width: 108px;
+  }
+  .brand img {
+    width: 108px;
+    transform: translateY(-33px);
+  }
+  .icon {
+    padding-inline: 5px;
+  }
+  .timebar strong {
+    font-size: 28px;
+  }
+  .section {
+    padding-inline: 15px;
+  }
+}
+
+/* Official PCA CineMAX logo. The source artwork includes generous transparent padding. */
+.simple-modal form > .primary {
+  margin-top: 22px;
+  width: 100%;
+}
+.simple-modal form > p {
+  color: #777;
+  font-size: 11px;
+}
+.brand {
+  display: block;
+  width: 178px;
+  height: 70px;
+  overflow: hidden;
+  flex: 0 0 auto;
+  line-height: normal;
+}
+.brand img {
+  display: block;
+  width: 178px;
+  height: auto;
+  transform: translateY(-55px);
+}
+@media (max-width: 900px) {
+  .brand {
+    width: 145px;
+    height: 62px;
+  }
+  .brand img {
+    width: 145px;
+    transform: translateY(-44px);
+  }
+}
