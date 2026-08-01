@@ -63,6 +63,7 @@ const upload = multer({
 });
 app.use("/uploads", express.static(uploadsDir));
 let databaseReady = false;
+let databaseStatus = "connecting";
 const memoryBookings = [];
 const asyncRoute = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
@@ -79,6 +80,7 @@ app.get("/api/health", (req, res) =>
   res.json({
     ok: true,
     database: databaseReady ? "mongodb" : "memory",
+    databaseStatus,
     timestamp: new Date().toISOString(),
   }),
 );
@@ -1221,22 +1223,46 @@ app.use((err, req, res, next) => {
 });
 
 const port = Number(process.env.PORT) || 5000;
-const mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/PCA";
+const mongoUri = String(
+  process.env.MONGODB_URI ||
+    process.env.MONGO_URL ||
+    (process.env.NODE_ENV === "production"
+      ? ""
+      : "mongodb://127.0.0.1:27017/PCA"),
+)
+  .trim()
+  .replace(/^['"]|['"]$/g, "");
 let reconnectTimer;
+const safeDatabaseError = (error) => {
+  const message = String(error?.message || "");
+  if (/auth|authentication/i.test(message)) return "authentication-failed";
+  if (/ENOTFOUND|getaddrinfo|querySrv/i.test(message)) return "dns-failed";
+  if (/timed out|server selection|ECONNREFUSED/i.test(message))
+    return "unreachable";
+  return error?.name || "connection-failed";
+};
 const connectDatabase = async () => {
   if (
     mongoose.connection.readyState === 1 ||
     mongoose.connection.readyState === 2
   )
     return;
+  if (!mongoUri) {
+    databaseReady = false;
+    databaseStatus = "missing-MONGODB_URI-or-MONGO_URL";
+    return;
+  }
   try {
-    await mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 3000 });
+    databaseStatus = "connecting";
+    await mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 15000 });
     databaseReady = true;
+    databaseStatus = "connected";
     clearTimeout(reconnectTimer);
     await seedDatabase();
     console.log("MongoDB connected: PCA");
   } catch (error) {
     databaseReady = false;
+    databaseStatus = safeDatabaseError(error);
     console.warn(
       `MongoDB unavailable (${error.message}) — retrying in 5 seconds`,
     );
