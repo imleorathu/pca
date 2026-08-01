@@ -26,8 +26,10 @@ import { getImdbTitle, imdbConfigured, searchImdb } from "./imdb.js";
 
 const app = express();
 app.disable("x-powered-by");
-const clientOrigins = String(process.env.CLIENT_URL || "")
-  .split(",")
+const clientOrigins = [
+  "https://pca-chi.vercel.app",
+  ...String(process.env.CLIENT_URL || "").split(","),
+]
   .map((origin) => origin.trim().replace(/\/$/, ""))
   .filter(Boolean);
 app.use(
