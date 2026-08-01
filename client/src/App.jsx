@@ -23,8 +23,8 @@ import { offers } from "./data";
 import AdminPortal from "./AdminPortal";
 import BookingPage from "./BookingPage";
 import "./admin.css";
+import { API, backendAsset } from "./api.js";
 
-const API = "/api";
 const money = (n) => `LKR ${n.toLocaleString()}`;
 function Brand({ onNavigate }) {
   return (
@@ -106,7 +106,8 @@ function Hero({ movie, onBook, onTrailer, index, total, onSelect, onHover }) {
   const words = movie.title.trim().split(/\s+/);
   const firstLine = words.shift();
   const secondLine = words.join(" ");
-  const artwork = movie.hero || movie.poster || "/assets/pca-noir-hero.png";
+  const artwork =
+    backendAsset(movie.hero || movie.poster) || "/assets/pca-noir-hero.png";
   return (
     <section
       className="hero"
@@ -225,7 +226,7 @@ function MovieCard({ movie, index, onBook }) {
         style={
           movie.poster
             ? {
-                backgroundImage: `linear-gradient(0deg,#070707ed,#07070711 65%),url("${movie.poster}")`,
+                backgroundImage: `linear-gradient(0deg,#070707ed,#07070711 65%),url("${backendAsset(movie.poster)}")`,
               }
             : undefined
         }

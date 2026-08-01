@@ -26,7 +26,20 @@ import { getImdbTitle, imdbConfigured, searchImdb } from "./imdb.js";
 
 const app = express();
 app.disable("x-powered-by");
-app.use(cors({ origin: process.env.CLIENT_URL?.split(",") || true }));
+const clientOrigins = String(process.env.CLIENT_URL || "")
+  .split(",")
+  .map((origin) => origin.trim().replace(/\/$/, ""))
+  .filter(Boolean);
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin || !clientOrigins.length || clientOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error(`Origin ${origin} is not allowed by CORS`));
+    },
+  }),
+);
 app.use(express.json({ limit: "100kb" }));
 app.use(optionalAuth);
 const uploadsDir = path.resolve(

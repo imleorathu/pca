@@ -25,8 +25,8 @@ import {
   WalletCards,
   X,
 } from "lucide-react";
+import { API, backendAsset } from "./api.js";
 
-const API = "/api";
 const nav = [
   ["Dashboard", LayoutDashboard],
   ["Movies", Film],
@@ -464,7 +464,7 @@ function MoviesPage({ token }) {
               style={{
                 "--tone": m.color || "#9c1016",
                 backgroundImage: m.poster
-                  ? `linear-gradient(0deg,#080808dd,#08080822),url(${m.poster})`
+                  ? `linear-gradient(0deg,#080808dd,#08080822),url(${backendAsset(m.poster)})`
                   : undefined,
               }}
             >
@@ -579,7 +579,10 @@ function MoviesPage({ token }) {
               </small>
               {edit.seatIcon && (
                 <span className="seat-icon-preview">
-                  <img src={edit.seatIcon} alt="Current selected-seat icon" />
+                  <img
+                    src={backendAsset(edit.seatIcon)}
+                    alt="Current selected-seat icon"
+                  />
                   Current icon
                 </span>
               )}

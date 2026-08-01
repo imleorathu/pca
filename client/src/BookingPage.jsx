@@ -15,9 +15,9 @@ import {
   Users,
 } from "lucide-react";
 import "./booking.css";
+import { API, backendAsset } from "./api.js";
 
-const API = "/api",
-  seatPrice = 1800;
+const seatPrice = 1800;
 const money = (n) => `LKR ${Number(n || 0).toLocaleString()}`;
 const dates = Array.from({ length: 7 }, (_, i) => {
   const date = new Date();
@@ -357,7 +357,7 @@ export default function BookingPage({ initialMovie, initialTime, onBack }) {
                         >
                           {isSelected && movie?.seatIcon ? (
                             <img
-                              src={movie.seatIcon}
+                              src={backendAsset(movie.seatIcon)}
                               alt={`${movie.title} selected-seat icon`}
                             />
                           ) : (

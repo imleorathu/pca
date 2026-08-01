@@ -35,3 +35,14 @@ Send `Authorization: Bearer <token>`.
 - `POST`, `PATCH`, and `DELETE /api/movies` (administrator only)
 
 Bookings are priced and discounted server-side. The server rejects duplicate seat reservations for the same movie, date, and showtime.
+
+## Vercel + Railway deployment
+
+Set these variables before rebuilding/redeploying each service:
+
+- Vercel: `VITE_API_URL=https://YOUR-BACKEND.up.railway.app`
+- Railway backend: `CLIENT_URL=https://YOUR-FRONTEND.vercel.app`
+- Railway backend: `MONGODB_URI` to the MongoDB service's private connection URL
+- Railway backend: a long random `JWT_SECRET`
+
+Do not include `/api` or a trailing slash in `VITE_API_URL`. If you use Vercel custom and preview domains, put every allowed origin in `CLIENT_URL`, separated by commas. Confirm the connection by opening `https://YOUR-BACKEND.up.railway.app/api/health`; it should return `"database":"mongodb"`.
