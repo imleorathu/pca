@@ -81,16 +81,28 @@ const cleanUser = (user) => ({
   role: user.role,
 });
 const validEmail = (value) => /^\S+@\S+\.\S+$/.test(value || "");
+const waitForDatabase = (timeoutMs) =>
+  new Promise((resolve) => {
+    const started = Date.now();
+    const check = () => {
+      if (mongoose.connection.readyState === 1 || Date.now() - started >= timeoutMs) {
+        resolve(mongoose.connection.readyState === 1);
+        return;
+      }
+      setTimeout(check, 200);
+    };
+    check();
+  });
 const ensureDatabase = async (req, res, next) => {
-  if (
-    !databaseReady &&
-    mongoose.connection.readyState !== 1 &&
-    mongoose.connection.readyState !== 2
-  ) {
-    await Promise.race([
-      connectDatabase().catch(() => {}),
-      new Promise((resolve) => setTimeout(resolve, 4500)),
-    ]);
+  if (mongoose.connection.readyState !== 1) {
+    connectDatabase().catch(() => {});
+    const connected = await waitForDatabase(4500);
+    if (!connected) {
+      return res.status(503).json({
+        message:
+          "Database connection is still warming up. Please try again in a few seconds.",
+      });
+    }
   }
   next();
 };
@@ -1456,7 +1468,7 @@ const connectDatabase = async () => {
   }
   if (!connectingPromise) {
     connectingPromise = mongoose
-      .connect(mongoUri, { serverSelectionTimeoutMS: 3000 })
+      .connect(mongoUri, { serverSelectionTimeoutMS: 4500 })
       .then(async () => {
         databaseReady = true;
         databaseStatus = "connected";
