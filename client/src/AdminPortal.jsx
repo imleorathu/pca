@@ -81,29 +81,51 @@ const compressImage = async (file) => {
   });
 };
 const request = async (path, token, options = {}) => {
-  const res = await fetch(`${API}${path}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-      ...options.headers,
-    },
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || "Request failed");
+  let res;
+  try {
+    res = await fetch(`${API}${path}`, {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        ...options.headers,
+      },
+    });
+  } catch {
+    throw new Error(
+      "Network error: the server could not be reached. The image may have been rejected as too large — try a smaller image.",
+    );
+  }
+  const text = await res.text();
+  let data = {};
+  try {
+    data = JSON.parse(text);
+  } catch {}
+  if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
   return data;
 };
 const uploadImage = async (file, token) => {
   if (!file?.size) return "";
   const form = new FormData();
   form.append("image", await compressImage(file));
-  const res = await fetch(`${API}/admin/upload`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
-    body: form,
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || "Image upload failed");
+  let res;
+  try {
+    res = await fetch(`${API}/admin/upload`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: form,
+    });
+  } catch {
+    throw new Error(
+      "Image upload failed: the server rejected the request. The image may be too large — try a smaller one.",
+    );
+  }
+  const text = await res.text();
+  let data = {};
+  try {
+    data = JSON.parse(text);
+  } catch {}
+  if (!res.ok) throw new Error(data.message || `Image upload failed (${res.status})`);
   return data.url;
 };
 const sampleSales = [38, 58, 44, 72, 60, 92, 76];
@@ -136,6 +158,7 @@ function Sidebar({ page, setPage, logout, open, setOpen }) {
         <div>
           <b>PCA Admin</b>
           <small>Super Administrator</small>
+          <small className="admin-build">build 2026-08-04b</small>
         </div>
         <button onClick={logout} title="Sign out">
           <LogOut />
