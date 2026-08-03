@@ -172,7 +172,7 @@ function Sidebar({ page, setPage, logout, open, setOpen }) {
         <div>
           <b>PCA Admin</b>
           <small>Super Administrator</small>
-          <small className="admin-build">build 2026-08-04b</small>
+          <small className="admin-build">build 2026-08-04c</small>
         </div>
         <button onClick={logout} title="Sign out">
           <LogOut />
