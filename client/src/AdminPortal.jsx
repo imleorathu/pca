@@ -41,6 +41,45 @@ const nav = [
   ["Content", FileText],
 ];
 const money = (n) => `LKR ${Number(n || 0).toLocaleString()}`;
+const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
+const MAX_UPLOAD_DIMENSION = 1600;
+const fileToImage = (file) =>
+  new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve(img);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Could not read the image"));
+    };
+    img.src = url;
+  });
+const canvasBlob = (canvas, quality) =>
+  new Promise((resolve) => canvas.toBlob(resolve, "image/webp", quality));
+const compressImage = async (file) => {
+  if (file.size <= MAX_UPLOAD_BYTES) return file;
+  const img = await fileToImage(file);
+  const { naturalWidth: w, naturalHeight: h } = img;
+  const max = Math.max(w, h);
+  const draw = (dimension, quality) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round((w / max) * dimension));
+    canvas.height = Math.max(1, Math.round((h / max) * dimension));
+    canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+    return canvasBlob(canvas, quality);
+  };
+  let blob = await draw(MAX_UPLOAD_DIMENSION, 0.85);
+  if (blob.size > MAX_UPLOAD_BYTES)
+    blob = await draw(MAX_UPLOAD_DIMENSION, 0.5);
+  if (blob.size > MAX_UPLOAD_BYTES)
+    blob = await draw(Math.round(MAX_UPLOAD_DIMENSION / 2), 0.6);
+  return new File([blob], file.name.replace(/\.[^.]+$/, "") + ".webp", {
+    type: "image/webp",
+  });
+};
 const request = async (path, token, options = {}) => {
   const res = await fetch(`${API}${path}`, {
     ...options,
@@ -57,7 +96,7 @@ const request = async (path, token, options = {}) => {
 const uploadImage = async (file, token) => {
   if (!file?.size) return "";
   const form = new FormData();
-  form.append("image", file);
+  form.append("image", await compressImage(file));
   const res = await fetch(`${API}/admin/upload`, {
     method: "POST",
     headers: { Authorization: `Bearer ${token}` },
