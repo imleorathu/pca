@@ -190,8 +190,18 @@ const auditSchema = new mongoose.Schema(
   },
   { timestamps: true, versionKey: false },
 );
+const uploadSchema = new mongoose.Schema(
+  {
+    filename: { type: String, required: true, unique: true },
+    mimetype: { type: String, default: "application/octet-stream" },
+    size: Number,
+    data: { type: Buffer, required: true },
+  },
+  { timestamps: true, versionKey: false },
+);
 export const Showtime = mongoose.model("Showtime", showtimeSchema);
 export const Screen = mongoose.model("Screen", screenSchema);
 export const Payment = mongoose.model("Payment", paymentSchema);
 export const Content = mongoose.model("Content", contentSchema);
 export const Audit = mongoose.model("Audit", auditSchema);
+export const Upload = mongoose.model("Upload", uploadSchema);

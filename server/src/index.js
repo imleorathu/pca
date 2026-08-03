@@ -19,6 +19,7 @@ import {
   Payment,
   Content,
   Audit,
+  Upload,
 } from "./models.js";
 import { optionalAuth, requireAuth, requireAdmin, signToken } from "./auth.js";
 import { seedDatabase, seedMovies } from "./seed.js";
@@ -49,20 +50,24 @@ const uploadsDir = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../uploads",
 );
-fs.mkdirSync(uploadsDir, { recursive: true });
+try {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+} catch {
+  // Serverless filesystems are read-only; uploads are stored in MongoDB instead.
+}
 const upload = multer({
-  storage: multer.diskStorage({
-    destination: uploadsDir,
-    filename: (req, file, cb) =>
-      cb(
-        null,
-        `${Date.now()}-${crypto.randomBytes(3).toString("hex")}${path.extname(file.originalname).toLowerCase()}`,
-      ),
-  }),
+  storage: multer.memoryStorage(),
   limits: { fileSize: 8 * 1024 * 1024 },
   fileFilter: (req, file, cb) => cb(null, file.mimetype.startsWith("image/")),
 });
-app.use("/uploads", express.static(uploadsDir));
+const persistToDisk = (filename, buffer) => {
+  try {
+    fs.writeFileSync(path.join(uploadsDir, filename), buffer);
+    return true;
+  } catch {
+    return false;
+  }
+};
 let databaseReady = false;
 let databaseStatus = "connecting";
 const memoryBookings = [];
@@ -266,13 +271,53 @@ app.post(
   "/api/admin/upload",
   requireAdmin,
   upload.single("image"),
-  (req, res) =>
-    req.file
-      ? res.status(201).json({
-          url: `/uploads/${req.file.filename}`,
-          name: req.file.originalname,
-        })
-      : res.status(400).json({ message: "A valid image file is required" }),
+  asyncRoute(async (req, res) => {
+    if (!req.file)
+      return res.status(400).json({ message: "A valid image file is required" });
+    const filename = `${Date.now()}-${crypto.randomBytes(3).toString("hex")}${path.extname(req.file.originalname).toLowerCase()}`;
+    if (databaseReady) {
+      try {
+        await Upload.create({
+          filename,
+          mimetype: req.file.mimetype,
+          size: req.file.size,
+          data: req.file.buffer,
+        });
+      } catch (error) {
+        if (error.code === 11000)
+          return res.status(409).json({ message: "That file already exists" });
+        throw error;
+      }
+    } else if (!persistToDisk(filename, req.file.buffer)) {
+      return res.status(503).json({
+        message:
+          "Uploads require MongoDB. The database is currently unavailable.",
+      });
+    } else {
+      return res.status(201).json({ url: `/uploads/${filename}`, name: req.file.originalname });
+    }
+    persistToDisk(filename, req.file.buffer);
+    res.status(201).json({ url: `/uploads/${filename}`, name: req.file.originalname });
+  }),
+);
+app.get(
+  "/uploads/:name",
+  asyncRoute(async (req, res) => {
+    const name = String(req.params.name || "");
+    if (databaseReady) {
+      const stored = await Upload.findOne({ filename: name })
+        .select("data mimetype")
+        .lean();
+      if (stored?.data) {
+        res.set("Content-Type", stored.mimetype || "application/octet-stream");
+        res.set("Cache-Control", "public, max-age=31536000, immutable");
+        return res.send(stored.data);
+      }
+    }
+    const diskPath = path.join(uploadsDir, name);
+    if (fs.existsSync(diskPath)) return res.sendFile(diskPath);
+    res.status(404).json({ message: "File not found" });
+  }),
 );
 app.get("/api/admin/imdb/status", requireAdmin, (req, res) =>
   res.json({
