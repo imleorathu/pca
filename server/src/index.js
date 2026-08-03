@@ -81,6 +81,7 @@ app.get("/api/health", (req, res) =>
     ok: true,
     database: databaseReady ? "mongodb" : "memory",
     databaseStatus,
+    ...(databaseError ? { databaseError } : {}),
     timestamp: new Date().toISOString(),
   }),
 );
@@ -1248,11 +1249,18 @@ const mongoUri =
     : "mongodb://127.0.0.1:27017/PCA");
 let reconnectTimer;
 let connectingPromise = null;
+let databaseError = "";
 const safeDatabaseError = (error) => {
   const message = String(error?.message || "");
+  const name = String(error?.name || "");
   if (/auth|authentication/i.test(message)) return "authentication-failed";
   if (/ENOTFOUND|getaddrinfo|querySrv/i.test(message)) return "dns-failed";
-  if (/timed out|server selection|ECONNREFUSED/i.test(message))
+  if (
+    /timed out|server selection|could not connect to any servers|ECONNREFUSED/i.test(
+      message,
+    ) ||
+    name === "MongooseServerSelectionError"
+  )
     return "unreachable";
   return error?.name || "connection-failed";
 };
@@ -1282,6 +1290,10 @@ const connectDatabase = async () => {
       .catch((error) => {
         databaseReady = false;
         databaseStatus = safeDatabaseError(error);
+        databaseError = String(error?.message || "").replace(
+          /\/\/[^:@\s]+@/,
+          "//***:***@",
+        );
         console.warn(
           `MongoDB unavailable (${error.message}) — retrying in 5 seconds`,
         );
