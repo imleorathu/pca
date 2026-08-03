@@ -1203,12 +1203,18 @@ app.get(
 
 const here = path.dirname(fileURLToPath(import.meta.url)),
   dist = path.resolve(here, "../../client/dist");
-app.use(express.static(dist));
-app.get("*", (req, res, next) =>
-  req.path.startsWith("/api")
-    ? res.status(404).json({ message: "API route not found" })
-    : res.sendFile(path.join(dist, "index.html")),
-);
+if (fs.existsSync(dist)) {
+  app.use(express.static(dist));
+  app.get("*", (req, res) =>
+    req.path.startsWith("/api")
+      ? res.status(404).json({ message: "API route not found" })
+      : res.sendFile(path.join(dist, "index.html")),
+  );
+} else {
+  app.use("/api", (req, res) =>
+    res.status(404).json({ message: "API route not found" }),
+  );
+}
 app.use((err, req, res, next) => {
   console.error(err);
   if (err.code === 11000)

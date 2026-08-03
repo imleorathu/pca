@@ -70,7 +70,10 @@ const offers = [
 ];
 export async function seedDatabase() {
   // Movies are managed exclusively from the administrator portal.
-  const userIndexes = await User.collection.indexes();
+  const userIndexes = await User.collection.indexes().catch((error) => {
+    if (error?.code !== 26) throw error;
+    return [];
+  });
   if (userIndexes.some((index) => index.name === "appId_1"))
     await User.collection.dropIndex("appId_1");
   await Offer.bulkWrite(
