@@ -75,7 +75,20 @@ const cleanUser = (user) => ({
   role: user.role,
 });
 const validEmail = (value) => /^\S+@\S+\.\S+$/.test(value || "");
-
+const ensureDatabase = async (req, res, next) => {
+  if (
+    !databaseReady &&
+    mongoose.connection.readyState !== 1 &&
+    mongoose.connection.readyState !== 2
+  ) {
+    await Promise.race([
+      connectDatabase(),
+      new Promise((resolve) => setTimeout(resolve, 5000)),
+    ]).catch(() => {});
+  }
+  next();
+};
+app.use(ensureDatabase);
 app.get("/api/health", (req, res) =>
   res.json({
     ok: true,
