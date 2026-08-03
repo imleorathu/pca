@@ -1365,12 +1365,13 @@ const connectDatabase = async () => {
       .catch((error) => {
         databaseReady = false;
         databaseStatus = safeDatabaseError(error);
-        databaseError = String(error?.message || "").replace(
+        const detail = error?.reason || error?.cause || error;
+        databaseError = String(detail?.message || error?.message || "").replace(
           /\/\/[^:@\s]+@/,
           "//***:***@",
         );
         console.warn(
-          `MongoDB unavailable (${error.message}) — retrying in 5 seconds`,
+          `MongoDB unavailable (${databaseError}) — retrying in 5 seconds`,
         );
         reconnectTimer = setTimeout(connectDatabase, 5000);
       })
