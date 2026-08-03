@@ -28,6 +28,7 @@ const app = express();
 app.disable("x-powered-by");
 const clientOrigins = [
   "https://pca-chi.vercel.app",
+  "https://pca-client-tau.vercel.app",
   ...String(process.env.CLIENT_URL || "").split(","),
 ]
   .map((origin) => origin.trim().replace(/\/$/, ""))
