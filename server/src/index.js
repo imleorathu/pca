@@ -86,6 +86,80 @@ app.get("/api/health", (req, res) =>
   }),
 );
 app.get(
+  "/api/db/debug",
+  asyncRoute(async (req, res) => {
+    const net = await import("net");
+    const dns = await import("dns/promises");
+    const srvHosts = [];
+    let seedHosts = [];
+    let scheme = "none";
+    if (mongoUri) {
+      scheme = mongoUri.startsWith("mongodb+srv://") ? "srv" : "direct";
+      if (scheme === "srv") {
+        const match = mongoUri.match(/^mongodb\+srv:\/\/[^@]*@([^/?#]+)/);
+        if (match) {
+          try {
+            const records = await dns.resolveSrv(`_mongodb._tcp.${match[1]}`);
+            srvHosts.push(...records.map((record) => record.name));
+          } catch (error) {
+            srvHosts.push(`srv-error:${error.code}`);
+          }
+        }
+        seedHosts = srvHosts;
+      } else {
+        seedHosts = mongoUri
+          .replace(/^mongodb:\/\//, "")
+          .split("?")[0]
+          .split(",")
+          .map((host) => host.replace(/^[^@]+@/, "").split(":")[0])
+          .filter(Boolean);
+      }
+    }
+    const results = [];
+    for (const host of [...new Set(seedHosts)]) {
+      let ips = [];
+      try {
+        ips = await dns.resolve4(host);
+      } catch (error) {
+        ips = [`dns-error:${error.code}`];
+      }
+      const tcp = [];
+      for (const ip of ips) {
+        if (String(ip).startsWith("dns-error")) {
+          tcp.push(ip);
+          continue;
+        }
+        const outcome = await new Promise((resolve) => {
+          const socket = new net.Socket();
+          let done = false;
+          const finish = (label) => {
+            if (done) return;
+            done = true;
+            socket.destroy();
+            resolve(label);
+          };
+          socket.setTimeout(4000);
+          socket.once("connect", () => finish("connected"));
+          socket.once("timeout", () => finish("timed-out"));
+          socket.once("error", (error) => finish(`error:${error.code}`));
+          socket.connect(27017, ip);
+        });
+        tcp.push(`${ip}:27017 ${outcome}`);
+        if (outcome === "connected") break;
+      }
+      results.push({ host, ips, tcp });
+    }
+    res.json({
+      uriScheme: scheme,
+      databaseStatus,
+      sanitizedUri: mongoUri
+        ? mongoUri.replace(/\/\/[^@]+@/, "//***:***@")
+        : null,
+      results,
+    });
+  }),
+);
+app.get(
   "/api/ratings/imdb/:id",
   asyncRoute(async (req, res) => {
     const imdbId = String(req.params.id || "");
