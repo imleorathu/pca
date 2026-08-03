@@ -87,7 +87,10 @@ const ensureDatabase = async (req, res, next) => {
     mongoose.connection.readyState !== 1 &&
     mongoose.connection.readyState !== 2
   ) {
-    await connectDatabase().catch(() => {});
+    await Promise.race([
+      connectDatabase().catch(() => {}),
+      new Promise((resolve) => setTimeout(resolve, 4500)),
+    ]);
   }
   next();
 };
@@ -1453,12 +1456,14 @@ const connectDatabase = async () => {
   }
   if (!connectingPromise) {
     connectingPromise = mongoose
-      .connect(mongoUri, { serverSelectionTimeoutMS: 6000 })
+      .connect(mongoUri, { serverSelectionTimeoutMS: 3000 })
       .then(async () => {
         databaseReady = true;
         databaseStatus = "connected";
         clearTimeout(reconnectTimer);
-        await seedDatabase();
+        seedDatabase().catch((error) =>
+          console.warn("seed failed:", error?.message || error),
+        );
         console.log("MongoDB connected: PCA");
       })
       .catch((error) => {
