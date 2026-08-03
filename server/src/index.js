@@ -81,33 +81,21 @@ const ensureDatabase = async (req, res, next) => {
     mongoose.connection.readyState !== 1 &&
     mongoose.connection.readyState !== 2
   ) {
-    await Promise.race([
-      connectDatabase(),
-      new Promise((resolve) => setTimeout(resolve, 5000)),
-    ]).catch(() => {});
+    await connectDatabase().catch(() => {});
   }
   next();
 };
 app.use(ensureDatabase);
-app.get("/api/health", async (req, res) => {
-  let connectTest = null;
-  try {
-    await mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 6000 });
-    connectTest = "connected";
-    await mongoose.disconnect().catch(() => {});
-  } catch (error) {
-    connectTest = "failed";
-  }
+app.get("/api/health", (req, res) =>
   res.json({
     ok: true,
     database: databaseReady ? "mongodb" : "memory",
     databaseStatus,
     readyState: mongoose.connection.readyState,
     ...(databaseError ? { databaseError } : {}),
-    connectTest,
     timestamp: new Date().toISOString(),
-  });
-});
+  }),
+);
 app.get(
   "/api/db/debug",
   asyncRoute(async (req, res) => {
@@ -1419,7 +1407,7 @@ const connectDatabase = async () => {
   }
   if (!connectingPromise) {
     connectingPromise = mongoose
-      .connect(mongoUri, { serverSelectionTimeoutMS: 8000 })
+      .connect(mongoUri, { serverSelectionTimeoutMS: 6000 })
       .then(async () => {
         databaseReady = true;
         databaseStatus = "connected";
