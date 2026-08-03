@@ -80,10 +80,24 @@ const compressImage = async (file) => {
     type: "image/webp",
   });
 };
+const fetchWithRetry = async (url, options, attempts = 2) => {
+  let lastError;
+  for (let attempt = 0; attempt < attempts; attempt++) {
+    try {
+      const res = await fetch(url, options);
+      if (res.status !== 503 || attempt === attempts - 1) return res;
+    } catch (error) {
+      lastError = error;
+      if (attempt === attempts - 1) throw error;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  }
+  throw lastError || new Error("Request failed");
+};
 const request = async (path, token, options = {}) => {
   let res;
   try {
-    res = await fetch(`${API}${path}`, {
+    res = await fetchWithRetry(`${API}${path}`, {
       ...options,
       headers: {
         "Content-Type": "application/json",
@@ -93,7 +107,7 @@ const request = async (path, token, options = {}) => {
     });
   } catch {
     throw new Error(
-      "Network error: the server could not be reached. The image may have been rejected as too large — try a smaller image.",
+      "Network error: the server could not be reached. Please check your connection and try again.",
     );
   }
   const text = await res.text();
@@ -110,14 +124,14 @@ const uploadImage = async (file, token) => {
   form.append("image", await compressImage(file));
   let res;
   try {
-    res = await fetch(`${API}/admin/upload`, {
+    res = await fetchWithRetry(`${API}/admin/upload`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: form,
     });
   } catch {
     throw new Error(
-      "Image upload failed: the server rejected the request. The image may be too large — try a smaller one.",
+      "Image upload failed: the server could not be reached. Please check your connection and try again.",
     );
   }
   const text = await res.text();
