@@ -1247,6 +1247,7 @@ const mongoUri =
     ? ""
     : "mongodb://127.0.0.1:27017/PCA");
 let reconnectTimer;
+let connectingPromise = null;
 const safeDatabaseError = (error) => {
   const message = String(error?.message || "");
   if (/auth|authentication/i.test(message)) return "authentication-failed";
@@ -1268,22 +1269,29 @@ const connectDatabase = async () => {
       : "missing-MONGODB_URI-or-MONGO_URL";
     return;
   }
-  try {
-    databaseStatus = "connecting";
-    await mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 15000 });
-    databaseReady = true;
-    databaseStatus = "connected";
-    clearTimeout(reconnectTimer);
-    await seedDatabase();
-    console.log("MongoDB connected: PCA");
-  } catch (error) {
-    databaseReady = false;
-    databaseStatus = safeDatabaseError(error);
-    console.warn(
-      `MongoDB unavailable (${error.message}) — retrying in 5 seconds`,
-    );
-    reconnectTimer = setTimeout(connectDatabase, 5000);
+  if (!connectingPromise) {
+    connectingPromise = mongoose
+      .connect(mongoUri, { serverSelectionTimeoutMS: 8000 })
+      .then(async () => {
+        databaseReady = true;
+        databaseStatus = "connected";
+        clearTimeout(reconnectTimer);
+        await seedDatabase();
+        console.log("MongoDB connected: PCA");
+      })
+      .catch((error) => {
+        databaseReady = false;
+        databaseStatus = safeDatabaseError(error);
+        console.warn(
+          `MongoDB unavailable (${error.message}) — retrying in 5 seconds`,
+        );
+        reconnectTimer = setTimeout(connectDatabase, 5000);
+      })
+      .finally(() => {
+        connectingPromise = null;
+      });
   }
+  return connectingPromise;
 };
 mongoose.connection.on("disconnected", () => {
   databaseReady = false;
