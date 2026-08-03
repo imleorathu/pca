@@ -1218,6 +1218,7 @@ if (fs.existsSync(path.join(dist, "index.html"))) {
       service: "PCA API",
       database: databaseReady ? "mongodb" : "memory",
       databaseStatus,
+      ...(databaseError ? { databaseError } : {}),
       health: "/api/health",
     }),
   );
