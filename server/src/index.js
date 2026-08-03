@@ -1211,6 +1211,15 @@ if (fs.existsSync(path.join(dist, "index.html"))) {
       : res.sendFile(path.join(dist, "index.html")),
   );
 } else {
+  app.get("/", (req, res) =>
+    res.json({
+      ok: true,
+      service: "PCA API",
+      database: databaseReady ? "mongodb" : "memory",
+      databaseStatus,
+      health: "/api/health",
+    }),
+  );
   app.use("/api", (req, res) =>
     res.status(404).json({ message: "API route not found" }),
   );
