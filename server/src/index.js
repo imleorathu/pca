@@ -89,15 +89,25 @@ const ensureDatabase = async (req, res, next) => {
   next();
 };
 app.use(ensureDatabase);
-app.get("/api/health", (req, res) =>
+app.get("/api/health", async (req, res) => {
+  let connectTest = null;
+  try {
+    await mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 6000 });
+    connectTest = "connected";
+    await mongoose.disconnect().catch(() => {});
+  } catch (error) {
+    connectTest = "failed";
+  }
   res.json({
     ok: true,
     database: databaseReady ? "mongodb" : "memory",
     databaseStatus,
+    readyState: mongoose.connection.readyState,
     ...(databaseError ? { databaseError } : {}),
+    connectTest,
     timestamp: new Date().toISOString(),
-  }),
-);
+  });
+});
 app.get(
   "/api/db/debug",
   asyncRoute(async (req, res) => {
