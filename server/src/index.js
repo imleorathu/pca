@@ -469,6 +469,11 @@ app.post(
       return res
         .status(400)
         .json({ message: "Movie id and title are required" });
+    const existing = await Movie.exists({ id: req.body.id });
+    if (existing)
+      return res.status(409).json({
+        message: `A movie with this ID ("${req.body.id}") already exists. Edit it instead, or use a different Unique ID.`,
+      });
     const movie = await Movie.create(req.body);
     await audit(req, "CREATE", "movie", movie.id);
     res.status(201).json(movie);
