@@ -147,7 +147,48 @@ app.get(
         tcp.push(`${ip}:27017 ${outcome}`);
         if (outcome === "connected") break;
       }
-      results.push({ host, ips, tcp });
+      const tls = await new Promise((resolve) => {
+        import("tls").then(({ default: tlsModule }) => {
+          const socket = tlsModule.connect({
+            host: ips.find((value) => !String(value).startsWith("dns-error")) || host,
+            port: 27017,
+            servername: host,
+            rejectUnauthorized: true,
+            timeout: 5000,
+          });
+          let done = false;
+          const finish = (label) => {
+            if (done) return;
+            done = true;
+            socket.destroy();
+            resolve(label);
+          };
+          socket.once("secureConnect", () => finish("tls-ok"));
+          socket.once("timeout", () => finish("tls-timed-out"));
+          socket.once("error", (error) => finish(`tls-error:${error.code || error.message}`));
+        });
+      });
+      results.push({ host, ips, tcp, tls });
+    }
+    const flattenError = (error, depth = 0) => {
+      if (!error || depth > 5) return null;
+      return {
+        name: error.name,
+        message: String(error.message || "").replace(/\/\/[^:@\s]+@/, "//***:***@"),
+        code: error.code,
+        codeName: error.codeName,
+        reason: flattenError(error.reason || error.cause, depth + 1),
+      };
+    };
+    let connectTest = null;
+    if (mongoUri) {
+      try {
+        await mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 10000 });
+        connectTest = { result: "connected" };
+        await mongoose.disconnect().catch(() => {});
+      } catch (error) {
+        connectTest = { result: "failed", error: flattenError(error) };
+      }
     }
     res.json({
       uriScheme: scheme,
@@ -156,6 +197,7 @@ app.get(
         ? mongoUri.replace(/\/\/[^@]+@/, "//***:***@")
         : null,
       results,
+      connectTest,
     });
   }),
 );
