@@ -1203,7 +1203,7 @@ app.get(
 
 const here = path.dirname(fileURLToPath(import.meta.url)),
   dist = path.resolve(here, "../../client/dist");
-if (fs.existsSync(dist)) {
+if (fs.existsSync(path.join(dist, "index.html"))) {
   app.use(express.static(dist));
   app.get("*", (req, res) =>
     req.path.startsWith("/api")
