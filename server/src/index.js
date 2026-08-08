@@ -326,7 +326,13 @@ app.get(
       if (stored?.data) {
         res.set("Content-Type", stored.mimetype || "application/octet-stream");
         res.set("Cache-Control", "public, max-age=31536000, immutable");
-        return res.send(stored.data);
+        // `lean()` may expose MongoDB Binary rather than a Node Buffer. Express
+        // must receive a Buffer so browsers get the original image bytes.
+        const image = Buffer.isBuffer(stored.data)
+          ? stored.data
+          : Buffer.from(stored.data.buffer || stored.data);
+        res.set("Content-Length", image.length);
+        return res.end(image);
       }
     }
     const diskPath = path.join(uploadsDir, name);
